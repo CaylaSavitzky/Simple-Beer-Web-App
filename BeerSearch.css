@@ -1,0 +1,61 @@
+body{
+	background:#fdd;
+}
+
+.content{
+	display:flex;
+	flex-wrap: wrap;
+}
+
+.card{
+	margin:20px;
+	display: inline-block;
+	border: 1px solid #7aa;
+	height:240px;
+}
+
+.card_image_holder{
+	width:150px;
+	display: inline-block;
+	text-align: center;
+	height:100%;
+	position: relative;
+	float:left;
+}
+
+.card_image {
+	height:200px;
+	margin: 10px;
+}
+
+.card_text_holder{
+	display: inline-block;
+	text-align: right;
+	height:100%;
+	width:200px;
+	float:right;
+	margin:10px 25px 10px 05px;
+}
+
+
+.favorite_checkbox{
+	display: none;
+}
+
+.favorite_icon{
+	background-image:url('unselected.png');
+	background-size: 100% 100%;
+	display: inline-block;
+	width:25px;
+	height: 25px;
+}
+
+.favorite_checkbox:checked ~.favorite_icon{
+	background-image:url('selected.png');
+}
+
+.card_description {
+	display: inline-block;
+	width:100%;
+	text-align: center;
+}

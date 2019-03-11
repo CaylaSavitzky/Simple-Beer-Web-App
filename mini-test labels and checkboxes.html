@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>little tests input & labels</title>
+	<style>
+	.favorite_checkbox{
+		display: none;
+	}
+
+	.favorite_icon{
+		background-image:url('unselected.png');
+		background-size: 100% 100%;
+		display: inline-block;
+		width:25px;
+		height: 25px;
+	}
+
+	.favorite_checkbox:checked ~.favorite_icon{
+		background-image:url('selected.png');
+	}
+	</style>
+</head>
+<body>
+	<input type='checkbox' class = 'favorite_checkbox' id = "box1"/><label class = 'favorite_icon' for = "box1"></label>
+
+</body>
+</html>
