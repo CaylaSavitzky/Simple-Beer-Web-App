@@ -1,5 +1,21 @@
 body{
 	background:#fdd;
+	-webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.card, .card_image_holder, .card_image, .card_text_holder, 
+.favorite_checkbox, .favorite_icon, .card_description{
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	transition: opacity 1s, border-width .3s, height .3s, width .3s, margin .3s;
+	webkit-transition: opacity 1s, border-width .3s, height .3s, width .3s, margin .3s;
+}
+
+#sections{
+	display: inline-block;
 }
 
 .content{
@@ -9,32 +25,53 @@ body{
 
 .card{
 	margin:20px;
+	background:#fff0f0;
 	display: inline-block;
-	border: 1px solid #7aa;
+	border: 2px solid #7aa;
 	height:240px;
+	opacity: 0;
+	border-radius:5px;
+	-webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width:350px;
+    display: inline-flex;
+    justify-content: space-around;
+}
+
+.card:hover {
+	border-width:3px;
+}
+
+.card:hover .card_image_holder {
+	height:238px;
+	width:124px;
+}
+
+.card:hover .card_text_holder {
+	margin-right: 4px;
 }
 
 .card_image_holder{
-	width:150px;
-	display: inline-block;
+	width:125px;
+	display: inline-flex;
 	text-align: center;
-	height:100%;
-	position: relative;
+	height:240px;
 	float:left;
+	position: relative;
 }
 
 .card_image {
-	height:200px;
-	margin: 10px;
+	max-height:200px;
+
 }
 
 .card_text_holder{
 	display: inline-block;
 	text-align: right;
-	height:100%;
-	width:200px;
+	max-width:175px;
 	float:right;
-	margin:10px 25px 10px 05px;
+	margin-right: 5px;
 }
 
 
@@ -43,6 +80,7 @@ body{
 }
 
 .favorite_icon{
+	margin-top: 10px;
 	background-image:url('unselected.png');
 	background-size: 100% 100%;
 	display: inline-block;
@@ -52,6 +90,11 @@ body{
 
 .favorite_checkbox:checked ~.favorite_icon{
 	background-image:url('selected.png');
+}
+
+.card_title{
+	text-align: center;
+	margin:5px 0 0 0;
 }
 
 .card_description {

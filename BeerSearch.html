@@ -19,9 +19,22 @@
 <body>
 	<header>
 	</header>
+	<div id = search_bar_container>
+		<input type="text" name="search_bar_input" id = "search_bar_input">
+		<button onclick = "search()"> search </button>
+	</div>
+	<div id = "sections">
+		<p onclick = "show_all();">
+			all items
+		</p>
+		<p onclick="show_favorites()">
+			favorites
+		</p>
+	</div>
 	<div id = 'content'>
 
 	</div>
+	<button id = load_button onclick = "load_new();"> Load More </button>
 	<footer>
 		<div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" 		    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 		    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 	</footer>
