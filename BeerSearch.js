@@ -5,7 +5,12 @@ var results = new Map();
 results.set(food,[]);
 var past_searches=[food];
 var page = 1;
+
+
 var char_in_description_max = 134;
+
+
+
 
 
 var show = () =>{
@@ -20,6 +25,7 @@ var show_all = () =>{
 	  	$( "#content" ).append(card);
 	  	n = n+1;
 	  });
+  	$(load_button)[0].style.display = 'block';
   	setTimeout(show,100);
 }
 
@@ -34,7 +40,7 @@ var show_favorites = () =>{
 		  	$( "#content" ).append(card);
 		});
 	})
-  	
+	$(load_button)[0].style.display = 'none';
   	setTimeout(show,100);
 }
 
@@ -109,7 +115,6 @@ var load_new = () =>{
 load_new();
 
 
-
 var search = () =>{
 	let tempfood = $("#search_bar_input")[0].value
 	if( tempfood != false){
@@ -137,5 +142,13 @@ var search = () =>{
 			show_all();
 		}
 
-	}	
-}
+	}
+}	
+
+var search_bar_input = $("#search_bar_input")[0];
+search_bar_input.addEventListener("keyup", function(event){
+	if (event.keyCode === 13) {
+   event.preventDefault();
+   search();
+  }
+});
