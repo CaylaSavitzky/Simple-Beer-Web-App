@@ -6,11 +6,10 @@
 	<script src = "JQuery_Uncompressed.js"></script>
 
 	<!--
-		add in titles
-		description char limit
-		fav onclick function
-		select better width for each block
-		add a search bar
+		Fix long ass titles management
+		favorites tab load more shouldn't work
+		enter for searchbar
+		search should check all_tab_checkbox
 
 
 	-->
@@ -21,22 +20,28 @@
 	</header>
 	<div id = search_bar_container>
 		<input type="text" name="search_bar_input" id = "search_bar_input">
-		<button onclick = "search()"> search </button>
+		<button onclick = "search()"> Search </button>
 	</div>
 	<div id = "sections">
-		<p onclick = "show_all();">
-			all items
-		</p>
-		<p onclick="show_favorites()">
-			favorites
-		</p>
+		<input type = "radio" name = tabs class = tab_checkbox id = all_tab_checkbox checked>
+		<label class = "tab" id = all_tab onclick = "show_all();" for = all_tab_checkbox>
+			All Matches
+		</label>
+		<input type = "radio" name = tabs class = tab_checkbox id = favorites_tab_checkbox>
+		<label class = "tab" id = favorites_tab onclick="show_favorites()" for = favorites_tab_checkbox>
+			Favorites
+		</label>
+		
+		
 	</div>
 	<div id = 'content'>
 
 	</div>
 	<button id = load_button onclick = "load_new();"> Load More </button>
+	<button id = go_to_top onclick = "go_to_top();"> TOP </button>
 	<footer>
 		<div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" 		    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 		    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+		<p> Page built by Cayla Savitzky </p>
 	</footer>
 
 </body>
