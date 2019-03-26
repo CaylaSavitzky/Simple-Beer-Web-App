@@ -125,17 +125,17 @@ var search = () =>{
 			}
 		}
 		food = tempfood;
-	}
-	if (results.get(food) == undefined){
-		results.set(food,[]);
-		favorites.set(food, new Set());
-		refresh();
-		load_new();
-	}
-	else{
-		refresh();
-		show_all();
-	}
-	
-	
+		$('#all_tab_checkbox')[0].checked = true;
+		if (results.get(food) == undefined){
+			results.set(food,[]);
+			favorites.set(food, new Set());
+			refresh();
+			load_new();
+		}
+		else{
+			refresh();
+			show_all();
+		}
+
+	}	
 }
