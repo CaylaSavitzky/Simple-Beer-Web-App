@@ -7,6 +7,7 @@
 	--button-bg: #a74;
 	--button-txt: #fff9f9;
 	--button-border : #963;
+	--button-click : #a5703c;
 	--card-bg : #fff0f0;
 }
 
@@ -29,6 +30,9 @@ body{
 *{
 	transition: opacity 1s, border-width .3s, height .3s, width .3s, margin .3s, transform .1s;
 	webkit-transition: opacity 1s, border-width .3s, height .3s, width .3s, margin .3s;
+	-webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 #search_bar_input{
@@ -96,7 +100,7 @@ body{
 }
 
 .card{
-	margin:20px;
+	margin:20px 15px;
 	background: var(--card-bg);
 	display: inline-block;
 	border: 2px solid var(--page-border);
@@ -196,12 +200,21 @@ body{
 
 button{
 	color:var(--button-txt);
-	background:var(--page-border);
+	background:var(--button-bg);
 	font-size:16px;
 	border: 1px solid var(--button-border);
 	border-radius:5px;
+	border-bottom: none;
 	padding:5px 15px;
 	outline:none;
+	box-shadow: 0 3px #a99;
+	transition-property: all 0s, color .2s;
+}
+
+button:active{
+	box-shadow: 0 1px grey;
+	transform: translateY(2px);
+	background:var(--button-click);
 }
 
 footer{
