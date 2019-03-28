@@ -27,7 +27,7 @@ body{
 }
 
 *{
-	transition: opacity 1s, border-width .3s, height .3s, width .3s, margin .3s;
+	transition: opacity 1s, border-width .3s, height .3s, width .3s, margin .3s, transform .1s;
 	webkit-transition: opacity 1s, border-width .3s, height .3s, width .3s, margin .3s;
 }
 
@@ -113,6 +113,7 @@ body{
 
 .card:hover {
 	border-width:3px;
+	transform: scale(1.02);
 }
 
 .card:hover .card_image_holder {
@@ -207,4 +208,17 @@ footer{
 	border-top: 1px solid var(--button-border);
 	margin-top: 20px;
 	padding:10px;
+}
+
+*{
+	font-family: 'Nunito', sans-serif;
+}
+
+.tab, h2, button {
+	font-family: 'Fjalla One', sans-serif;
+}
+
+#ruler{
+	max-width: 175px;
+	visibility: hidden;
 }
