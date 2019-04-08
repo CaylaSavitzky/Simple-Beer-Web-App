@@ -7,7 +7,8 @@
 	--button-bg: #a74;
 	--button-txt: #fff9f9;
 	--button-border : #963;
-	--button-click : #a5703c;
+	--button-click : #a9723d;
+	--button-shadow : #aa9090;
 	--card-bg : #fff0f0;
 }
 
@@ -87,16 +88,18 @@ body{
 	
 }
 
+
+
 #content{
 	display:inline-flex;
 	flex-wrap: wrap;
-	justify-content: space-around;
+	justify-content: space-evenly;
 	border: 2px solid var(--page-border);
 	border-radius: 1px;
 	background:var(--page-bg);
 	box-shadow: 15px -32px 80px -32px rgba(0,0,0,0.3);
 	min-height: 300px;
-	width:80%;
+	width:90%;
 }
 
 .card{
@@ -104,13 +107,13 @@ body{
 	background: var(--card-bg);
 	display: inline-block;
 	border: 2px solid var(--page-border);
-	height:240px;
+	height:380px;
 	opacity: 0;
 	border-radius:5px;
 	-webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    width:350px;
+    width:80%;
     display: inline-flex;
     justify-content: space-around;
 }
@@ -139,7 +142,7 @@ body{
 }
 
 .card_image {
-	height:200px;
+	height:100%;
 
 }
 
@@ -207,7 +210,7 @@ button{
 	border-bottom: none;
 	padding:5px 15px;
 	outline:none;
-	box-shadow: 0 3px #a99;
+	box-shadow: 0 3px var(--button-shadow);
 	transition-property: all 0s, color .2s;
 }
 
@@ -234,4 +237,25 @@ footer{
 #ruler{
 	max-width: 175px;
 	visibility: hidden;
+}
+
+@media (min-width:835px){
+	#content{
+		width:90%;
+	}
+	.card{
+		width:335px;
+		height:240px;
+	}
+	.card_image_holder{
+		width:125px;
+		height:240px;
+	}
+
+	.card_image {
+		height:200px;
+	}
+	.card_text_holder{
+	max-width:175px;
+	}
 }
