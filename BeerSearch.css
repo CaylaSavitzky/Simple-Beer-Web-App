@@ -20,6 +20,28 @@ body{
     text-align: center;
 }
 
+header{
+	text-align: center;
+}
+
+h1{
+	margin-bottom: 0px;
+	margin-top:25px;
+	text-align: center;
+}
+
+header > div{
+	display: flex;
+	justify-content: center;
+}
+
+header > div > p{
+	font-size: 18px;
+	margin-bottom: 35px;
+	border-bottom: 1px solid #333;
+	max-width: 4000px;
+}
+
 
 .card, .card_image_holder, .card_image, .card_text_holder, 
 .favorite_checkbox, .favorite_icon, .card_description{
@@ -41,6 +63,7 @@ body{
 	padding:5px 10px;
 	box-shadow:none;
 	font-size: 14px;
+	color:#555;
 }
 
 #sections{
@@ -230,7 +253,7 @@ footer{
 	font-family: 'Nunito', sans-serif;
 }
 
-.tab, h2, button {
+.tab, h2, button, h1, header>div>p {
 	font-family: 'Fjalla One', sans-serif;
 }
 

@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>Basic Beer selection site with favoriting functionality</title>
+	<title> Pairing Beer With Every Meal </title>
+
+	<meta name="robots" content="index, follow" />
+	<meta charset="UTF-8">
+	<link rel="canonical" href="" />
+	<meta name="keywords" content="Beer Pair Pairing Cayla Savitzky Demo Single Page Application SPA">
+	<meta name = "description" content = "Here at Paired Beer we find a beer for every meal! This is a demo single page application by Cayla Savitzky">
+	<meta name="author" content="Cayla Savitzky">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel ="stylesheet" href = "BeerSearch.css">
-	<script src = "JQuery_Uncompressed.js"></script>
-	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+	<script src = "JQuery_Compressed.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Fjalla+One|Nunito" rel="stylesheet">
 
 	<!--
@@ -18,9 +25,17 @@
 </head>
 <body>
 	<header>
+		<h1>
+			Beer Pairing
+		</h1>
+		<div>
+			<p>
+				The pursuit of the perfect brew to accompany dinner
+			</p>
+		</div>
 	</header>
 	<div id = search_bar_container>
-		<input type="text" name="search_bar_input" id = "search_bar_input">
+		<input type="text" name="search_bar_input" value = "Beef" id = "search_bar_input">
 		<button onclick = "search()"> Search </button>
 	</div>
 	<div id = "sections">
