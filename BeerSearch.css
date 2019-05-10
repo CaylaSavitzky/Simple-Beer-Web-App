@@ -139,6 +139,11 @@ header > div > p{
     width:80%;
     display: inline-flex;
     justify-content: space-around;
+    align-items: flex-start;
+}
+
+.card.long {
+	height:auto;
 }
 
 .card:hover {

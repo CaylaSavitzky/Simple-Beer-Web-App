@@ -57,8 +57,27 @@ var refresh = () =>{
 
 
 
+var make_card_long = (item, n, card_food = food, char_in_description_max = 124) =>{
+	let opening = "<div class = 'card long' onclick=long_to_short(" + n + ")>";
+	let image = "<div class = 'card_image_holder'><img class = 'card_image' src = "+ item.image_url + " alt = 'Image Unavailable'></div>";
+	let favorited = "";
+	if (favorites.get(card_food).has(n)){favorited = "checked"}
+	let fav_icon = "<input type='checkbox' class = 'favorite_checkbox'  " + favorited + " id = 'checkbox"+n+"'/><label class = 'favorite_icon' for = 'checkbox"+n+"' onclick = \"favorite(" + n +",  " + "'"+ card_food + "')\"></label>"
+	let title = item.name;
+	if (title.indexOf('-') != -1 ){ 
+		title = title.slice(0,title.indexOf('-'));}
+	title = "<h2 class = 'card_title'>" + title + "</h2>"
+
+	let description =  item.description
+	description = "<p class = 'card_description'>" + description + "</p>";
+	let card_text = "<div class = card_text_holder> "+ fav_icon + title+ description+"</div>";
+	let closing = "</div>";
+	let card = opening + image + card_text+closing;
+	return card;
+} 
+
 var make_card = (item, n, card_food = food, char_in_description_max = 124) =>{
-	let opening = "<div class = 'card'>";
+	let opening = "<div class = 'card' onclick=short_to_long(" + n + ")>";
 	let image = "<div class = 'card_image_holder'><img class = 'card_image' src = "+ item.image_url + " alt = 'Image Unavailable'></div>";
 	let favorited = "";
 	if (favorites.get(card_food).has(n)){favorited = "checked"}
@@ -102,13 +121,33 @@ var height_check = () => {
 	for (let i = 0; i < card_text_holders.length; i++){
 		let card_text_holder = card_text_holders[i]
 		if (card_text_holder.offsetHeight > max_height){
-				/* if you wanted to repair cards that weren't loading for the first time, you
-					could look under make card to find the food */
+			/* if you wanted to repair cards that weren't loading for the first time, you
+				could look under make card to find the food */
+			if(cards[i].className.search("long") == -1){
 				$(cards[i]).replaceWith(make_card(results.get(food)[i],i));
-
+			}
 		}
 	}
+}
 
+var height_check_single = (i) => {
+	let cards = $(".card")
+	let card_text_holders = $(".card_text_holder")
+	let card_text_holder = card_text_holders[i]
+	if (card_text_holder.offsetHeight > max_height){
+		if(cards[i].className.search("long") == -1){
+			$(cards[i]).replaceWith(make_card(results.get(food)[i],i));
+		}
+	}
+}
+
+var short_to_long =(i) =>{
+	$($(".card")[i]).replaceWith(make_card_long(results.get(food)[i],i));
+}
+
+var long_to_short =(i) =>{
+	$($(".card")[i]).replaceWith(make_card(results.get(food)[i],i));
+	height_check_single(i);
 }
 
 
