@@ -9,8 +9,7 @@ var page = 1;
 /* reduce 20 chars for about 1 line
 max height for card_text_holder ~= 320
 */
-var max_height = 240
-
+var max_height = 300
 
 
 
@@ -76,7 +75,7 @@ var make_card_long = (item, n, card_food = food, char_in_description_max = 124) 
 	return card;
 } 
 
-var make_card = (item, n, card_food = food, char_in_description_max = 124) =>{
+var make_card = (item, n, card_food = food, char_in_description_max = 224) =>{
 	let opening = "<div class = 'card' onclick=short_to_long(" + n + ")>";
 	let image = "<div class = 'card_image_holder'><img class = 'card_image' src = "+ item.image_url + " alt = 'Image Unavailable'></div>";
 	let favorited = "";
@@ -86,7 +85,6 @@ var make_card = (item, n, card_food = food, char_in_description_max = 124) =>{
 	if (title.indexOf('-') != -1 ){ 
 		title = title.slice(0,title.indexOf('-'));}
 	title = "<h2 class = 'card_title'>" + title + "</h2>"
-
 	let description =  item.description.substr(0,char_in_description_max);
 	if (description != item.description){
 		let n = 0;
@@ -120,7 +118,7 @@ var height_check = () => {
 	
 	for (let i = 0; i < card_text_holders.length; i++){
 		let card_text_holder = card_text_holders[i]
-		if (card_text_holder.offsetHeight > max_height){
+		if (card_text_holder.offsetHeight > max_height | card_text_holder.offsetHeight < max_height -40 ){
 			/* if you wanted to repair cards that weren't loading for the first time, you
 				could look under make card to find the food */
 			if(cards[i].className.search("long") == -1){
@@ -129,6 +127,23 @@ var height_check = () => {
 		}
 	}
 }
+
+var screenResize = () =>{
+	if(window.innerWidth < 755){
+		if(max_height!=300)
+		{
+			max_height=300;
+		}
+	}
+	else{
+		if(max_height!=240)
+		{
+			max_height=240;
+		}
+	}
+	height_check();
+}
+screenResize()
 
 var height_check_single = (i) => {
 	let cards = $(".card")
