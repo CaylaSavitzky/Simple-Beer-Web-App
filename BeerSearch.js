@@ -9,7 +9,7 @@ var page = 1;
 /* reduce 20 chars for about 1 line
 max height for card_text_holder ~= 320
 */
-var max_height = 300
+var max_height = 280
 
 
 
@@ -35,6 +35,7 @@ var show_all = () =>{
 var show_favorites = () =>{
 	clear_page();
 	favorites.forEach(function(value, key, map){
+		console.log(value, key, map)
 		value.forEach(function(number){
 	  		let item = results.get(key)[number]
 	  		let card = make_card(item, number, key);
@@ -57,11 +58,12 @@ var refresh = () =>{
 
 
 var make_card_long = (item, n, card_food = food, char_in_description_max = 124) =>{
-	let opening = "<div class = 'card long' onclick=long_to_short(" + n + ")>";
-	let image = "<div class = 'card_image_holder'><img class = 'card_image' src = "+ item.image_url + " alt = 'Image Unavailable'></div>";
+	let opening = "<div class = 'card long' id = 'card_"+card_food+"_"+n+"'>";
 	let favorited = "";
-	if (favorites.get(card_food).has(n)){favorited = "checked"}
+	if (favorites.get(card_food).has(parseInt(n))){favorited = "checked"}
 	let fav_icon = "<input type='checkbox' class = 'favorite_checkbox'  " + favorited + " id = 'checkbox"+n+"'/><label class = 'favorite_icon' for = 'checkbox"+n+"' onclick = \"favorite(" + n +",  " + "'"+ card_food + "')\"></label>"
+	let image = "<div class = 'card_image_holder'><img class = 'card_image' src = "+ item.image_url + " alt = 'Image Unavailable'></div>";
+	let subcard = "<div class = 'subcard' onclick=long_to_short('" +card_food+"',"+ n + ")>";
 	let title = item.name;
 	if (title.indexOf('-') != -1 ){ 
 		title = title.slice(0,title.indexOf('-'));}
@@ -69,18 +71,20 @@ var make_card_long = (item, n, card_food = food, char_in_description_max = 124) 
 
 	let description =  item.description
 	description = "<p class = 'card_description'>" + description + "</p>";
-	let card_text = "<div class = card_text_holder> "+ fav_icon + title+ description+"</div>";
-	let closing = "</div>";
-	let card = opening + image + card_text+closing;
+	let card_text = "<div class = card_text_holder> "+ title+ description+"</div>";
+	let closing = "</div></div>";
+	let card = opening + fav_icon+ subcard +image + card_text+closing;
 	return card;
 } 
 
+
 var make_card = (item, n, card_food = food, char_in_description_max = 224) =>{
-	let opening = "<div class = 'card' onclick=short_to_long(" + n + ")>";
-	let image = "<div class = 'card_image_holder'><img class = 'card_image' src = "+ item.image_url + " alt = 'Image Unavailable'></div>";
+	let opening = "<div class = 'card' id = 'card_"+card_food+"_"+n+"'>";
 	let favorited = "";
-	if (favorites.get(card_food).has(n)){favorited = "checked"}
+	if (favorites.get(card_food).has(parseInt(n)) ){favorited = "checked"}
 	let fav_icon = "<input type='checkbox' class = 'favorite_checkbox'  " + favorited + " id = 'checkbox"+n+"'/><label class = 'favorite_icon' for = 'checkbox"+n+"' onclick = \"favorite(" + n +",  " + "'"+ card_food + "')\"></label>"
+	let image = "<div class = 'card_image_holder'><img class = 'card_image' src = "+ item.image_url + " alt = 'Image Unavailable'></div>";
+	let subcard = "<div class = 'subcard' onclick=short_to_long('" + card_food+"',"+ n + ")>"
 	let title = item.name;
 	if (title.indexOf('-') != -1 ){ 
 		title = title.slice(0,title.indexOf('-'));}
@@ -94,15 +98,16 @@ var make_card = (item, n, card_food = food, char_in_description_max = 224) =>{
 			description = description.slice(0,-1);
 			if (n > 50){break;}
 		}
+		fav_icon
 		*/
 		description = description+"..."}
 	description = "<p class = 'card_description'>" + description + "</p>";
-	let card_text = "<div class = card_text_holder> "+ fav_icon + title+ description+"</div>";
-	let closing = "</div>";
-	let card = opening + image + card_text+closing;
+	let card_text = "<div class = card_text_holder> "+ title+ description+"</div>";
+	let closing = "</div></div>";
+	let card = opening + fav_icon+ subcard +image + card_text+closing;
 
 	$("#ruler").html(card);
-	if($("#ruler>.card>.card_text_holder").height() > max_height){
+	if($("#ruler>.card>.subcard>.card_text_holder").innerHeight() > max_height){
 		let new_char_max = char_in_description_max-20;
 		card = make_card(item, n, card_food, new_char_max);
 	}
@@ -122,7 +127,10 @@ var height_check = () => {
 			/* if you wanted to repair cards that weren't loading for the first time, you
 				could look under make card to find the food */
 			if(cards[i].className.search("long") == -1){
-				$(cards[i]).replaceWith(make_card(results.get(food)[i],i));
+				let temploc = cards[i].id.lastIndexOf("_")
+				let card_food = cards[i].id.substr(5,temploc-5)
+				let card_num = cards[i].id.substr(temploc+1)
+				$(cards[i]).replaceWith(make_card(results.get(card_food)[card_num],card_num,card_food));
 			}
 		}
 	}
@@ -130,9 +138,9 @@ var height_check = () => {
 
 var screenResize = () =>{
 	if(window.innerWidth < 755){
-		if(max_height!=300)
+		if(max_height!=280)
 		{
-			max_height=300;
+			max_height=290;
 		}
 	}
 	else{
@@ -145,31 +153,37 @@ var screenResize = () =>{
 }
 screenResize()
 
-var height_check_single = (i) => {
-	let cards = $(".card")
-	let card_text_holders = $(".card_text_holder")
-	let card_text_holder = card_text_holders[i]
+var height_check_single = (i,food) => {
+	let card = $("#card_"+food + "_"+i)
+	let card_text_holder = card.find(".card_text_holder")
 	if (card_text_holder.offsetHeight > max_height){
-		if(cards[i].className.search("long") == -1){
-			$(cards[i]).replaceWith(make_card(results.get(food)[i],i));
+		if(card.className.search("long") == -1){
+			let temploc = card.id.lastIndexOf("_")
+			let card_food = card.id.substr(5,temploc-5)
+			let card_num = card.id.substr(temploc+1)
+			$(cards[i]).replaceWith(make_card(results.get(card_food)[card_num],card_num,card_food));
 		}
 	}
 }
 
-var short_to_long =(i) =>{
-	$($(".card")[i]).replaceWith(make_card_long(results.get(food)[i],i));
+var short_to_long =(card_food,i) =>{
+	$($("#card_"+card_food+"_"+i)[0]).replaceWith(make_card_long(results.get(card_food)[i],i,card_food));
 }
 
-var long_to_short =(i) =>{
-	$($(".card")[i]).replaceWith(make_card(results.get(food)[i],i));
-	height_check_single(i);
+var long_to_short =(card_food,i) =>{
+	$($("#card_"+card_food+"_"+i)[0]).replaceWith(make_card(results.get(card_food)[i],i,card_food));
+	height_check_single(i,card_food);
 }
 
 
 var favorite = (n, food) =>{
-	box = $(".favorite_checkbox")[n];
-	if (box.checked == false){favorites.get(food).add(n);}
-	if (box.checked == true){favorites.get(food).delete(n);}
+	box = $("#checkbox"+n)[0];
+	if (box.checked == false){
+		favorites.get(food).add(n);
+	}
+	if (box.checked == true){
+		favorites.get(food).delete(n);
+	}
 }
 
 var go_to_top = () =>{

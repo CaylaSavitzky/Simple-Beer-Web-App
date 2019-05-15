@@ -43,7 +43,7 @@ header > div > p{
 }
 
 
-.card, .card_image_holder, .card_image, .card_text_holder, 
+.card,.subcard, .card_image_holder, .card_image, .card_text_holder, 
 .favorite_checkbox, .favorite_icon, .card_description{
 	display: inline-flex;
 	justify-content: center;
@@ -130,7 +130,7 @@ header > div > p{
 	background: var(--card-bg);
 	display: inline-block;
 	border: 2px solid var(--page-border);
-	height:320px;
+	height:350px;
 	opacity: 0;
 	border-radius:5px;
 	-webkit-box-sizing: border-box;
@@ -139,7 +139,19 @@ header > div > p{
     width:80%;
     display: inline-flex;
     justify-content: space-around;
-    align-items: center;
+    align-items: flex-start;
+    position: relative;
+}
+
+.subcard{
+	width:100%;
+	height:100%;
+	padding: 0px;
+	margin: 0px;
+	display: inline-flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    padding-top: 45px;
 }
 
 .card.long {
@@ -176,13 +188,15 @@ header > div > p{
 }
 
 .favorite_icon{
-	margin-top: 10px;
-	margin-bottom: 10px;
 	background-image:url('unselected.png');
 	background-size: 100% 100%;
 	display: inline-block;
 	width:35px;
 	height: 35px;
+	position: absolute;
+	right:10px;
+	top:10px;
+	z-index: 1;
 }
 
 .favorite_checkbox:checked ~.favorite_icon{
@@ -256,12 +270,12 @@ footer{
 	visibility: hidden;
 }
 
-@media(min-width: 375px){
+@media(min-width: 400px){
 	.card_image_holder{
 		width:125px;
 		display: inline-flex;
 		text-align: center;
-		height:240px;
+		height:255px;
 		float:left;
 		position: relative;
 		margin-left:10px;
@@ -281,11 +295,6 @@ footer{
 
 @media (min-width:755px){
 	.favorite_icon{
-	margin-top: 10px;
-	margin-bottom: 0px;
-	background-image:url('unselected.png');
-	background-size: 100% 100%;
-	display: inline-block;
 	width:25px;
 	height: 25px;
 }
@@ -307,11 +316,12 @@ footer{
 	    align-items: flex-start;
 	    justify-content: space-between;
 		width:300px;
-		height:240px;
+		height:275px;
 	}
 	.card_image_holder{
 		width:125px;
 		height:240px;
+		align-items: flex-start;
 	}
 
 	.card_image {
@@ -321,6 +331,9 @@ footer{
 		max-width:175px;
 		padding-right: 5px;
 	}
+	.subcard{
+		padding-top: 35px;
+	}
 }
 
 @media (min-width:834px){
@@ -328,20 +341,7 @@ footer{
 		width:90%;
 	}
 	.card{
-			margin:20px 15px;
-		background: var(--card-bg);
-		display: inline-block;
-		border: 2px solid var(--page-border);
-		height:380px;
-		opacity: 0;
-		border-radius:5px;
-		-webkit-box-sizing: border-box;
-	    -moz-box-sizing: border-box;
-	    box-sizing: border-box;
-	    display: inline-flex;
-	    justify-content: space-between;
 		width:335px;
-		height:240px;
 	}
 	.card_image_holder{
 		width:125px;
