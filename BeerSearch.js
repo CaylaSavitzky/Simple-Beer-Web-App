@@ -1,3 +1,13 @@
+/*
+*
+*
+*
+Key Globals
+*
+*
+*
+*/
+
 var food = "Beef"
 var favorites = new Map();
 favorites.set(food, new Set());
@@ -12,6 +22,16 @@ max height for card_text_holder ~= 320
 var max_height = 280
 
 
+
+/*
+*
+*
+*
+Primairy Display Functions
+*
+*
+*
+*/
 
 
 var show = () =>{
@@ -44,6 +64,7 @@ var show_favorites = () =>{
 	})
 	$(load_button)[0].style.display = 'none';
   	setTimeout(show,100);
+  	setTimeout(height_check,300);
 }
 
 var clear_page = () => {
@@ -56,7 +77,40 @@ var refresh = () =>{
 }
 
 
+/*
+*
+*
+*
+Beer Card Generation and Testing
+*
+*
+*
+*/
 
+
+// takes a given food and item number, and generates the html to display the beer image and description as a card
+var make_card = (item, n, card_food = food, char_in_description_max = 224) =>{
+	let opening = "<div class = 'card' id = 'card_"+card_food+"_"+n+"'>";
+	let favorited = "";
+	if (favorites.get(card_food).has(parseInt(n)) ){favorited = "checked"}
+	let fav_icon = "<input type='checkbox' class = 'favorite_checkbox'  " + favorited + " id = 'checkbox"+n+"'/><label class = 'favorite_icon' for = 'checkbox"+n+"' onclick = \"favorite(" + n +",  " + "'"+ card_food + "')\"></label>"
+	let image = "<div class = 'card_image_holder'><img class = 'card_image' src = "+ item.image_url + " alt = 'Image Unavailable'></div>";
+	let subcard = "<div class = 'subcard' onclick=short_to_long('" + card_food+"',"+ n + ")>"
+	let title = item.name;
+	if (title.indexOf('-') != -1 ){ 
+		title = title.slice(0,title.indexOf('-'));}
+	title = "<h2 class = 'card_title'>" + title + "</h2>"
+	let description =  item.description.substr(0,char_in_description_max);
+	if (description != item.description){
+		description = description+"..."}
+	description = "<p class = 'card_description'>" + description + "</p>";
+	let card_text = "<div class = card_text_holder> "+ title+ description+"</div>";
+	let closing = "</div></div>";
+	let card = opening + fav_icon+ subcard +image + card_text+closing;
+	return card;
+} 
+
+//makes a card that has the class long, and does not reduce the size of the card
 var make_card_long = (item, n, card_food = food, char_in_description_max = 124) =>{
 	let opening = "<div class = 'card long' id = 'card_"+card_food+"_"+n+"'>";
 	let favorited = "";
@@ -77,105 +131,59 @@ var make_card_long = (item, n, card_food = food, char_in_description_max = 124) 
 	return card;
 } 
 
-
-var make_card = (item, n, card_food = food, char_in_description_max = 224) =>{
-	let opening = "<div class = 'card' id = 'card_"+card_food+"_"+n+"'>";
-	let favorited = "";
-	if (favorites.get(card_food).has(parseInt(n)) ){favorited = "checked"}
-	let fav_icon = "<input type='checkbox' class = 'favorite_checkbox'  " + favorited + " id = 'checkbox"+n+"'/><label class = 'favorite_icon' for = 'checkbox"+n+"' onclick = \"favorite(" + n +",  " + "'"+ card_food + "')\"></label>"
-	let image = "<div class = 'card_image_holder'><img class = 'card_image' src = "+ item.image_url + " alt = 'Image Unavailable'></div>";
-	let subcard = "<div class = 'subcard' onclick=short_to_long('" + card_food+"',"+ n + ")>"
-	let title = item.name;
-	if (title.indexOf('-') != -1 ){ 
-		title = title.slice(0,title.indexOf('-'));}
-	title = "<h2 class = 'card_title'>" + title + "</h2>"
-	let description =  item.description.substr(0,char_in_description_max);
-	if (description != item.description){
-		let n = 0;
-		/*
-		while (description.substr(-1).search('[a-zA-Z]') == -1){
-			console.log(description);
-			description = description.slice(0,-1);
-			if (n > 50){break;}
-		}
-		fav_icon
-		*/
-		description = description+"..."}
-	description = "<p class = 'card_description'>" + description + "</p>";
-	let card_text = "<div class = card_text_holder> "+ title+ description+"</div>";
-	let closing = "</div></div>";
-	let card = opening + fav_icon+ subcard +image + card_text+closing;
-
-	$("#ruler").html(card);
-	if($("#ruler>.card>.subcard>.card_text_holder").innerHeight() > max_height){
-		let new_char_max = char_in_description_max-20;
-		card = make_card(item, n, card_food, new_char_max);
-	}
-	$("#ruler")[0].innerHTML = "";
-
-	return card;
-} 
-
-
+//tests the height of all beer cards and confirms their descriptions are not overflowing
 var height_check = () => {
 	let cards = $(".card")
+	let subcards = $(".subcard")
 	let card_text_holders = $(".card_text_holder")
-	
 	for (let i = 0; i < card_text_holders.length; i++){
-		let card_text_holder = card_text_holders[i]
-		if (card_text_holder.offsetHeight > max_height | card_text_holder.offsetHeight < max_height -40 ){
-			/* if you wanted to repair cards that weren't loading for the first time, you
-				could look under make card to find the food */
-			if(cards[i].className.search("long") == -1){
-				let temploc = cards[i].id.lastIndexOf("_")
-				let card_food = cards[i].id.substr(5,temploc-5)
-				let card_num = cards[i].id.substr(temploc+1)
-				$(cards[i]).replaceWith(make_card(results.get(card_food)[card_num],card_num,card_food));
-			}
-		}
+		let temploc = cards[i].id.lastIndexOf("_");
+		let card_food = cards[i].id.substr(5,temploc-5);
+		let card_num = cards[i].id.substr(temploc+1);
+		height_check_single(card_num,card_food);
 	}
 }
 
-var screenResize = () =>{
-	if(window.innerWidth < 755){
-		if(max_height!=280)
-		{
-			max_height=290;
-		}
-	}
-	else{
-		if(max_height!=240)
-		{
-			max_height=240;
-		}
-	}
-	height_check();
-}
-screenResize()
-
-var height_check_single = (i,food) => {
-	let card = $("#card_"+food + "_"+i)
+//tests the height of one beer card and confirms their descriptions are not overflowing
+var height_check_single = (i,card_food = food) => {
+	console.log('test');
+	let card = $("#card_"+card_food + "_"+i)
+	let subcard = card.find(".subcard")
 	let card_text_holder = card.find(".card_text_holder")
-	if (card_text_holder.offsetHeight > max_height){
-		if(card.className.search("long") == -1){
-			let temploc = card.id.lastIndexOf("_")
-			let card_food = card.id.substr(5,temploc-5)
-			let card_num = card.id.substr(temploc+1)
-			$(cards[i]).replaceWith(make_card(results.get(card_food)[card_num],card_num,card_food));
+	if (card_text_holder.height() > subcard.height()){
+		if(card[0].className.search("long") == -1){
+			let card_description_text = card.find(".card_description")[0].innerHTML;
+			card.find(".card_description").html(card_description_text.slice(0,card_description_text.length-20)+"...");
+			height_check_single(i,card_food)
 		}
 	}
 }
 
+/*
+*
+*
+*
+Onclick Functions
+*
+*
+*
+*/
+
+// Onclick function to give a fulltext description of a beer
 var short_to_long =(card_food,i) =>{
 	$($("#card_"+card_food+"_"+i)[0]).replaceWith(make_card_long(results.get(card_food)[i],i,card_food));
 }
 
+// Onclick function to reduce the fulltext description of a beer
 var long_to_short =(card_food,i) =>{
 	$($("#card_"+card_food+"_"+i)[0]).replaceWith(make_card(results.get(card_food)[i],i,card_food));
 	height_check_single(i,card_food);
+	setTimeout(function(){height_check_single(i,card_food)},80);
+	setTimeout(function(){height_check_single(i,card_food)},120);
+	setTimeout(function(){height_check_single(i,card_food)},160);
 }
 
-
+// Onclick function to favorite a beer
 var favorite = (n, food) =>{
 	box = $("#checkbox"+n)[0];
 	if (box.checked == false){
@@ -186,11 +194,12 @@ var favorite = (n, food) =>{
 	}
 }
 
+// Onclick function for bottom-right corner button
 var go_to_top = () =>{
 	$("body")[0].scrollIntoView({behavior: "smooth", block: "start"});
 }
 
-
+// Onclick funtion for Load More button
 var load_new = () =>{
 	$.ajax({
 	  url: "https://api.punkapi.com/v2/beers",
@@ -209,7 +218,11 @@ var load_new = () =>{
 		  	n = n+1;
 		  });
 	  	setTimeout(show,100);
-	  	setTimeout(height_check,1000);
+	  	setTimeout(height_check,120);
+	  	setTimeout(height_check,180);
+	  	setTimeout(height_check,260);
+	  	setTimeout(height_check,400);
+	  	setTimeout(height_check,8000);
 	  	setTimeout(height_check,3000);
 	  	setTimeout(height_check,7000);
 	  	setTimeout(height_check,12000);
@@ -217,9 +230,8 @@ var load_new = () =>{
 	  }
 	});
 }
-load_new();
 
-
+// Onclick function for Search button
 var search = () =>{
 	let tempfood = $("#search_bar_input")[0].value
 	if( tempfood != false){
@@ -250,6 +262,36 @@ var search = () =>{
 	}
 }	
 
+
+/*
+*
+*
+*
+Initializing Details
+*
+*
+*
+*/
+
+//Onresize function for body
+var screenResize = () =>{
+	if(window.innerWidth < 755){
+		if(max_height!=280)
+		{
+			max_height=290;
+		}
+	}
+	else{
+		if(max_height!=240)
+		{
+			max_height=240;
+		}
+	}
+	height_check();
+}
+
+
+// Event Listener kept on the search bar to detect enter key-press events
 var search_bar_input = $("#search_bar_input")[0];
 search_bar_input.addEventListener("keyup", function(event){
 	if (event.keyCode === 13) {
@@ -257,3 +299,6 @@ search_bar_input.addEventListener("keyup", function(event){
    search();
   }
 });
+
+screenResize()
+load_new();

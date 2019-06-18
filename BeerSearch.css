@@ -1,3 +1,33 @@
+/*
+*
+*
+*
+In this stylesheet items are broken down into section, and within sections
+ generally are in the approximate order they appear in the html (after the api calls)
+
+Sections include:
+	General CSS;
+	One of a kind items;
+	Cards and contents of cards;
+	Media Queries
+*
+*
+*
+*/
+
+
+
+
+
+/*
+*
+*
+*
+General CSS
+*
+*
+*
+*/
 :root{
 	--site-bg :#ffddc0;
 	--page-bg: #f0dddd;
@@ -11,6 +41,60 @@
 	--button-shadow : #aa9090;
 	--card-bg : #fff0f0;
 }
+
+
+.card,.subcard, .card_image_holder, .card_image, .card_text_holder, 
+.favorite_checkbox, .favorite_icon, .card_description{
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+}
+
+*{
+	transition: opacity 1s, border-width .3s, height .3s, width .3s, margin .3s, transform .1s;
+	webkit-transition: opacity 1s, border-width .3s, height .3s, width .3s, margin .3s;
+	-webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+button{
+	color:var(--button-txt);
+	background:var(--button-bg);
+	font-size:16px;
+	border: 1px solid var(--button-border);
+	border-radius:5px;
+	border-bottom: none;
+	padding:5px 15px;
+	outline:none;
+	box-shadow: 0 3px var(--button-shadow);
+	transition-property: all 0s, color .2s;
+}
+
+button:active{
+	box-shadow: 0 1px grey;
+	transform: translateY(2px);
+	background:var(--button-click);
+}
+
+
+*{
+	font-family: 'Nunito', sans-serif;
+}
+
+.tab, h2, button, h1, header>div>p {
+	font-family: 'Fjalla One', sans-serif;
+}
+
+/*
+*
+*
+*
+One of a kind items
+*
+*
+*
+*/
 
 body{
 	background:var(--site-bg);
@@ -40,22 +124,6 @@ header > div > p{
 	margin-bottom: 35px;
 	border-bottom: 1px solid #333;
 	max-width: 4000px;
-}
-
-
-.card,.subcard, .card_image_holder, .card_image, .card_text_holder, 
-.favorite_checkbox, .favorite_icon, .card_description{
-	display: inline-flex;
-	justify-content: center;
-	align-items: center;
-}
-
-*{
-	transition: opacity 1s, border-width .3s, height .3s, width .3s, margin .3s, transform .1s;
-	webkit-transition: opacity 1s, border-width .3s, height .3s, width .3s, margin .3s;
-	-webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
 }
 
 #search_bar_input{
@@ -111,8 +179,6 @@ header > div > p{
 	
 }
 
-
-
 #content{
 	display:inline-flex;
 	flex-wrap: wrap;
@@ -124,6 +190,45 @@ header > div > p{
 	min-height: 300px;
 	width:90%;
 }
+
+#load_button{
+	display: block;
+	margin:auto;
+	margin-top: 10px;
+}
+
+#go_to_top {
+	position: fixed;
+	bottom:0px;
+	right:0px;
+	padding: 4px 100px 100px 100px;
+	transform: translateY(50%) translateX(50%) rotate(-45deg);
+	font-size:16px;
+	background:var(--page-border);
+	border-top: 3px solid var(--button-border);
+	color:var(--button-txt);
+	z-index: 2;
+}
+
+#ruler{
+	visibility: hidden;
+}
+
+footer{
+	border-top: 1px solid var(--button-border);
+	margin-top: 20px;
+	padding:10px;
+}
+
+/*
+*
+*
+*
+Cards and Card contents
+*
+*
+*
+*/
 
 .card{
 	margin:20px 15px;
@@ -214,63 +319,22 @@ header > div > p{
 	text-align: center;
 }
 
-#load_button{
-	display: block;
-	margin:auto;
-	margin-top: 10px;
-}
 
-#go_to_top {
-	position: fixed;
-	bottom:0px;
-	right:0px;
-	padding: 4px 100px 100px 100px;
-	transform: translateY(50%) translateX(50%) rotate(-45deg);
-	font-size:16px;
-	background:var(--page-border);
-	border-top: 3px solid var(--button-border);
-	color:var(--button-txt);
-}
 
-button{
-	color:var(--button-txt);
-	background:var(--button-bg);
-	font-size:16px;
-	border: 1px solid var(--button-border);
-	border-radius:5px;
-	border-bottom: none;
-	padding:5px 15px;
-	outline:none;
-	box-shadow: 0 3px var(--button-shadow);
-	transition-property: all 0s, color .2s;
-}
 
-button:active{
-	box-shadow: 0 1px grey;
-	transform: translateY(2px);
-	background:var(--button-click);
-}
 
-footer{
-	border-top: 1px solid var(--button-border);
-	margin-top: 20px;
-	padding:10px;
-}
-
-*{
-	font-family: 'Nunito', sans-serif;
-}
-
-.tab, h2, button, h1, header>div>p {
-	font-family: 'Fjalla One', sans-serif;
-}
-
-#ruler{
-	max-width: 175px;
-	visibility: hidden;
-}
+/*
+*
+*
+*
+Media Queries
+*
+*
+*
+*/
 
 @media(min-width: 400px){
+	/* Cards and elements inside cards */
 	.card_image_holder{
 		width:125px;
 		display: inline-flex;
@@ -287,22 +351,25 @@ footer{
 
 
 @media (min-width:605px){
+	/* Unique items */
 	#content{
 		width:80%;
 	}
-
 }
 
 @media (min-width:755px){
-	.favorite_icon{
-	width:25px;
-	height: 25px;
-}
+	/* Unique items */
 	#content{
 		width:90%;
 	}
+
+	/* Cards and elements inside cards */
+	.favorite_icon{
+		width:25px;
+		height: 25px;
+	}
 	.card{
-			margin:20px 15px;
+		margin:20px 15px;
 		background: var(--card-bg);
 		display: inline-block;
 		border: 2px solid var(--page-border);
@@ -337,9 +404,11 @@ footer{
 }
 
 @media (min-width:834px){
+	/* Unique items */
 	#content{
 		width:90%;
 	}
+	/* Cards and elements inside cards */
 	.card{
 		width:335px;
 	}
